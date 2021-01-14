@@ -31,7 +31,7 @@ else if (data->specifier == SPEC_P)
 	print_pointer(ap, data);
 else
 	print_persent(data);
-return (data->ordi_len + data->spec_len + data->field);
+return (data->sum_printed_len + data->printed_len + data->field);
 }
 
 
@@ -41,16 +41,20 @@ t_data_flag *data)
 {
 	if (!**fmt)
 		return (-1);
-	data->spec_len = *fmt - *start;
-	write(1, *start, data->spec_len);
-	return (data->ordi_len + data->spec_len);
+	data->printed_len = *fmt - *start;
+	write(1, *start, data->printed_len);
+	return (data->sum_printed_len + data->printed_len);
 }
 
 void print_persent(t_data_flag *data)
 {
 	size_t zero_len;
-	data->spec_len = 1;
-	data->field = (data->field <= data->spec_len ? 0 : data->field - data->spec_len);
+	data->printed_len = 1;
+	if (data->field <= data->printed_len)
+	data->field = 0;
+	else
+	data->field =  data->field - data->printed_len;
+
 	if (!data->flag[FLAG_MINUS] && !data->flag[FLAG_ZERO])
 		printf_putchar(' ', data->field);
 	zero_len = (!data->flag[FLAG_MINUS] && data->flag[FLAG_ZERO] ? data->field : 0);
