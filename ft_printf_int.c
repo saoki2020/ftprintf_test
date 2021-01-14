@@ -39,29 +39,29 @@ void	get_putlen_di(t_data_flag *data, long long num)
 		data->flag[FLAG_ZERO] = 0;
 
 //数値の桁数を求める。この関数だと数値が0だと桁も0になるので注意
-	data->spec_len = get_digit_di(num);
+	data->printed_len = get_digit_di(num);
 
 //ここでいう「精度」は０を表示する数。実際の定義とは違うし、混同してるので注意。
 //桁数が精度よりも大きくて、数値が0かつ精度が0なら表示しない。数値が0で精度が0じゃないなら1
 //桁数が精度よりも小さいなら「精度」は「精度-桁数」
-	if (data->precision <= data->spec_len)
+	if (data->precision <= data->printed_len)
 		data->precision = (num == 0 && data->precision);
 	else
-		data->precision -= data->spec_len;
+		data->precision -= data->printed_len;
 
 //負の値だと、桁数にマイナス記号分を足す
 	if (num < 0)
-		data->spec_len += data->precision + 1;
+		data->printed_len += data->precision + 1;
 	else
-		data->spec_len += data->precision;
+		data->printed_len += data->precision;
 
 //ここでいう「フィールド幅」は空白の数。実際の定義とは違うので注意
 //桁数がフィールド幅より大きければ、空白は表示されない
 //桁数がフィールド幅より小さければ、空白は「フィールド幅-桁数」分表示される
-	if (data->field <= data->spec_len)
+	if (data->field <= data->printed_len)
 		data->field = 0;
 	else
-		data->field -= data->spec_len;
+		data->field -= data->printed_len;
 }
 
 
@@ -104,23 +104,23 @@ void	get_putlen_ux(t_data_flag *data, unsigned long long num)
 	else
 		data->flag[FLAG_ZERO] = 0;
 
-	data->spec_len = get_digit_ux(num, *data);
+	data->printed_len = get_digit_ux(num, *data);
 
-	if (data->precision <= data->spec_len)
+	if (data->precision <= data->printed_len)
 		data->precision = (num == 0 && data->precision);
 	else
-		data->precision -= data->spec_len;
+		data->precision -= data->printed_len;
 
 //フラグ[#]がある場合「0x」を表示するので桁数には2を足す
 	if (data->flag[FLAG_SHARP] && num != 0 && data->specifier != SPEC_U)
-		data->spec_len += data->precision + 2;
+		data->printed_len += data->precision + 2;
 	else
-		data->spec_len += data->precision;
+		data->printed_len += data->precision;
 
-	if (data->field <= data->spec_len)
+	if (data->field <= data->printed_len)
 		data->field = 0;
 	else
-		data->field -= data->spec_len;
+		data->field -= data->printed_len;
 }
 
 void	print_pointer(va_list *ap, t_data_flag *data)
@@ -137,7 +137,7 @@ void	print_pointer(va_list *ap, t_data_flag *data)
 		if (data->precision == -1)
 			data->precision = 1;
 //表示桁数は精度に「0x」分の2を足す。NULLでも[0x0]と表示されるので桁数は３になる
-		data->spec_len = 2 + data->precision;
+		data->printed_len = 2 + data->precision;
 
 		if (data->field <= data->precision)
 			data->field = 0;
