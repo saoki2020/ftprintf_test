@@ -142,7 +142,7 @@ void	print_pointer(va_list *ap, t_data_flag *data)
 		if (data->field <= data->precision)
 			data->field = 0;
 		else
-			data->field -= data->precision;
+			data->field -= (2 + data->precision);
 	}
 //値が0じゃなければunsignedの時と同じ。値0、精度0の時はprecisionが0になるので「0x」だけ表示される。
 //「＃」がある事になってるので、precision(=0)に2を足してる。
