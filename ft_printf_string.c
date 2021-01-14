@@ -61,13 +61,13 @@ int	set_print_string(va_list *ap, t_data_flag *data, char **s)
 		return (print_null(data, s));
 	n = ft_strlen(*s);
 	//指定した精度が文字数より多い⇒すべての文字が表示出来て、0を表示する数は[精度-文字数]
-	if (n < data->precision && data->precision != INT_MAX)
+	if (n <= data->precision && data->precision != INT_MAX)
 	{
 		data->printed_len = n;
 		data->precision -= n;
 	}
 	//精度は指定ないのでINT＿MAXが代入されてる。つまり、すべての文字が表示される。0を表示する数は0
-	else if (n < data->precision && data->precision == INT_MAX)
+	else if (n <= data->precision && data->precision == INT_MAX)
 	{
 		data->printed_len = n;
 		data->precision = 0;

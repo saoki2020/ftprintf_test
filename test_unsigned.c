@@ -3,6 +3,11 @@
 
 int main(void)
 {
+
+	printf("%5p", 0);
+	ft_printf("%5p", 0);
+
+	/*
 	unsigned int num1;
 	unsigned int num2;
  unsigned int a = 0;
@@ -28,4 +33,6 @@ num1 = ft_printf("printf1 = [%*.*x]\n",-10,5,a);
 num2 = printf("printf2 = [%*.*x]\n",-10,5,a);
 printf("printf1_output = [%d]\n",num1-13);
 printf("printf2_output = [%d]\n",num2-13);
+
+*/
 }

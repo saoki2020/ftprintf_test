@@ -2,8 +2,11 @@
 
 int main(void)
 {
-ft_printf("%.s");
-printf("%.s");
+
+static char *s_hidden = "hi low\0don't print me lol\0";
+
+ft_printf("%20.6s\n",s_hidden);
+printf("%20.6s\n",s_hidden);
 
 /*
 int i,j;
