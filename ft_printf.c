@@ -75,8 +75,8 @@ void	initialize_data(t_data_flag	*data, int	n)
 	data->field = 0;
 	data->precision = -1;
 	data->specifier = -1;
-	data->ordi_len = (n < 0 ? 0 : n);
-	data->spec_len = 0;
+	data->sum_printed_len = (n < 0 ? 0 : n);
+	data->printed_len = 0;
 }
 
 void	print_ordinary_str(const char **start, const char **fmt, int *n)

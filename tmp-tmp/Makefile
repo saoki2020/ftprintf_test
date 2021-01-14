@@ -1,7 +1,5 @@
-libftを利用するやつ
-
 NAME = libftprintf.a
-SRCS = ft_printf.c ft_printf_utility.c
+SRCS = ft_printf.c ft_printf_utility.c ft_printf_output.c ft_printf_int.c ft_printf_string.c
 
 OBJS = $(SRCS:.c=.o)
 CC = gcc

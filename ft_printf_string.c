@@ -5,11 +5,11 @@ void	print_char(va_list *ap, t_data_flag *data)
 	char c;
 
 	c = (char)va_arg(*ap, int);
-	data->spec_len = 1;
-	if (data->field <= data->spec_len)
+	data->printed_len = 1;
+	if (data->field <= data->printed_len)
 		data->field = 0;
 	else
-		data->field -= data->spec_len;
+		data->field -= data->printed_len;
 	if (!data->flag[FLAG_MINUS])
 		printf_putchar(' ', data->field);
 	printf_putchar(c, 1);
@@ -28,10 +28,10 @@ void	print_string(va_list *ap, t_data_flag *data)
 	set_print_string(ap, data, &s);
 
 //フィールド幅から空白を表示する数を決める
-	if (data->field <= data->spec_len)
+	if (data->field <= data->printed_len)
 		data->field = 0;
 	else
-		data->field -= data->spec_len;
+		data->field -= data->printed_len;
 
 	if (!data->flag[FLAG_MINUS])
 		{
@@ -42,7 +42,7 @@ void	print_string(va_list *ap, t_data_flag *data)
 				printf_putchar(' ', data->field);
 		}
 		//ここがちょっと違う
-	write(1, s, data->spec_len);
+	write(1, s, data->printed_len);
 	if (data->flag[FLAG_MINUS])
 		printf_putchar(' ', data->field);
 }
@@ -52,28 +52,30 @@ int	set_print_string(va_list *ap, t_data_flag *data, char **s)
 {
 	int n;
 
+//引数がない場合
 	if (ap == NULL)
 		return (print_null(data, s));
+	//引数として持ってきた文字列がNULLの場合
 	*s = (char *)va_arg(*ap, char *);
-	if (s == NULL)
+	if (*s == NULL)
 		return (print_null(data, s));
 	n = ft_strlen(*s);
 	//指定した精度が文字数より多い⇒すべての文字が表示出来て、0を表示する数は[精度-文字数]
 	if (n < data->precision && data->precision != INT_MAX)
 	{
-		data->spec_len = n;
+		data->printed_len = n;
 		data->precision -= n;
 	}
 	//精度は指定ないのでINT＿MAXが代入されてる。つまり、すべての文字が表示される。0を表示する数は0
 	else if (n < data->precision && data->precision == INT_MAX)
 	{
-		data->spec_len = n;
+		data->printed_len = n;
 		data->precision = 0;
 	}
 	//文字数が精度より大きい⇒表示できるのは精度分。0は表示されない。
 	else if (n > data->precision)
 	{
-		data->spec_len = data->precision;
+		data->printed_len = data->precision;
 		data->precision = 0;
 	}
 	return (n);
@@ -82,8 +84,8 @@ int	set_print_string(va_list *ap, t_data_flag *data, char **s)
 int	print_null(t_data_flag *data, char **s)
 {
 	*s = "(null)";
-	data->spec_len = 6;
-	if (data->spec_len > data->precision)
-		data->spec_len = data->precision;
+	data->printed_len = 6;
+	if (data->printed_len > data->precision)
+		data->printed_len = data->precision;
 	return (0);
 }

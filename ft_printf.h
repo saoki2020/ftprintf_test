@@ -53,8 +53,8 @@ typedef struct	s_data_flag
 	int	field;
 	int	precision;
 	int	specifier;
-	int	ordi_len;
-	int spec_len;
+	int	sum_printed_len;
+	int printed_len;
 }	t_data_flag;
 
 int	ft_printf(const char *fmt, ...);

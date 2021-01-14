@@ -1,18 +1,9 @@
 #include <unistd.h>
 #include <stdio.h>
+#include "ft_printf.h"
 
 int main(void)
 {
-	//char *s;
-	char *s2;
-	int i;
+ft_printf("hello, %s.", NULL);
 
-/*
-	s = "abcdefg";
-	write(1,s,3);
-*/
-
-	s2 = NULL;
-	i = printf("%s2",s2);
-	printf("%d\n",i);
 }
