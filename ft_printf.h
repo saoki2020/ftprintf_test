@@ -86,5 +86,5 @@ void	print_string(va_list *ap, t_data_flag *data);
 int	set_print_string(va_list *ap, t_data_flag *data, char **s);
 int	ft_strlen(const char *str);
 int	print_null(t_data_flag *data, char **s);
-
+void pointer_null_nofit(t_data_flag *data);
 #endif

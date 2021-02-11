@@ -8,7 +8,7 @@ static char *s_hidden = "hi low\0don't print me lol\0";
 ft_printf("%20.6s\n",s_hidden);
 printf("%20.6s\n",s_hidden);
 
-/*
+
 int i,j;
 char *s;
 
@@ -17,9 +17,9 @@ i =	ft_printf("[%.]\n",s);
 j = printf("[%.]\n",s);
 printf("%d\n",i-3);
 printf("%d\n",j-3);
-*/
 
-/*
+
+
 s = "NULL";
 i =	ft_printf("[%s]\n",s);
 j = printf("[%s]\n",s);
@@ -59,5 +59,5 @@ i =	ft_printf("[  %-10.5s%-10.5d%%%p]\n","cd",12, &i);
 j = printf("[  %-10.5s%-10.5d%%%p]\n","cd",12, &i);
 printf("%d\n",i-3);
 printf("%d\n",j-3);
-*/
+
 }

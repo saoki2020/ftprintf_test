@@ -12,12 +12,15 @@
 
 #include "ft_printf.h"
 
-int	get_field(const char **fmt, va_list *ap, t_data_flag *data)
+int get_field(const char **fmt, va_list *ap, t_data_flag *data)
 {
 	int num;
+	int i;
 //指定してなければ０
 	num = 0;
-	//.の次が＊だったら、apに入ってる引数からintのやつを読み取る
+	i = 0;
+
+	//%の次が*だったら、apに入ってる引数からintのやつを読み取る
 	if (**fmt == '*')
 	{
 		num = va_arg(*ap, int);
@@ -37,7 +40,7 @@ int	get_field(const char **fmt, va_list *ap, t_data_flag *data)
 		while (ft_isdigit(**fmt))
 			num = num * 10 + (*((*fmt)++) - '0');
 	}
-	return (num);
+	return (num + i);
 }
 
 int get_precision(const char **fmt, va_list *ap)
@@ -75,6 +78,7 @@ void	initialize_data(t_data_flag	*data, int	n)
 	data->field = 0;
 	data->precision = -1;
 	data->specifier = -1;
+	//data->sum_printed_len = n;
 	data->sum_printed_len = (n < 0 ? 0 : n);
 	data->printed_len = 0;
 }
@@ -108,6 +112,7 @@ void	print_specifier_str(const char	**start, const char	**fmt,	int	*n,
 	}
  data.specifier = printf_strchr("diuxXcsp%", **fmt);
 	num = print_data(start, fmt, ap, &data);
+	//*n = num;
 	*n = ((*n == 0 || num >= 0) ? num : *n);
 }
 
@@ -121,8 +126,12 @@ int	ft_printf(const char *fmt, ...)
 
 	n = 0;
 	va_start(ap, fmt);
-	if (fmt == NULL)
-		n = -1;
+
+	// 文字数はボーナスなのでいらない？
+	//if (fmt == NULL)
+	//	n = -1;
+
+
 	while (n >= 0 && *fmt)
 	{
 		start = fmt;

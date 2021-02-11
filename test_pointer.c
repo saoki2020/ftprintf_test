@@ -3,6 +3,16 @@
 
 int main(void)
 {
+	int i,j;
+
+	i = ft_printf("[%2p]\n",NULL);
+	j = printf("[%2p]\n",NULL);
+
+	printf("%d\n",i-3);
+	printf("%d\n",j-3);
+
+}
+	/*
  int i,j,k,f;
 	int n = 0;
 
@@ -11,6 +21,8 @@ int main(void)
 
 	i = ft_printf("[%p]\n", &n);
 	j = printf("[%p]\n", &n);
+
+
 	printf("%d\n",i-3);
 	printf("%d\n",j-3);
 
@@ -29,3 +41,4 @@ int main(void)
 	printf("%d\n",k-3);
 	printf("%d\n",f-3);
 }
+*/

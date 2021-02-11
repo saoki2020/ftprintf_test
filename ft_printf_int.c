@@ -5,7 +5,7 @@ void print_int(va_list *ap, t_data_flag *data)
 {
 	long long num;
 
-	num = va_arg(*ap, int);
+	num = (long long)va_arg(*ap, int);
 	//フィールド、精度の数を数える関数
 	get_putlen_di(data, num);
 //フラグに[-][0]どちらもない場合は空白を表示
@@ -130,20 +130,12 @@ void	print_pointer(va_list *ap, t_data_flag *data)
 	data->specifier = SPEC_SX;
 //0xを表示させるために「＃」フラグがある事にする。get_putlen_uxで使う
 	data->flag[FLAG_SHARP] = 1;
+
 //値が0（NULL）の時は他のと処理が違う。
 	if ((num = (unsigned long)va_arg(*ap, void *)) == 0)
-	{
-//精度が指定されてなければデフォルトの１にする。そうじゃなければそのままの値。精度が0でも0にしておく。
-		if (data->precision == -1)
-			data->precision = 1;
-//表示桁数は精度に「0x」分の2を足す。NULLでも[0x0]と表示されるので桁数は３になる
-		data->printed_len = 2 + data->precision;
+		pointer_null_nofit(data);
 
-		if (data->field <= data->precision)
-			data->field = 0;
-		else
-			data->field -= (2 + data->precision);
-	}
+
 //値が0じゃなければunsignedの時と同じ。値0、精度0の時はprecisionが0になるので「0x」だけ表示される。
 //「＃」がある事になってるので、precision(=0)に2を足してる。
 	else
@@ -165,4 +157,24 @@ void	print_pointer(va_list *ap, t_data_flag *data)
 
 	if (data->flag[FLAG_MINUS])
 		printf_putchar(' ', data->field);
+}
+
+void pointer_null_nofit(t_data_flag *data)
+{
+//精度が指定されてなければデフォルトの１にする。そうじゃなければそのままの値。精度が0でも0にしておく。
+		if (data->precision == -1)
+			data->precision = 1;
+//表示桁数は精度に「0x」分の2を足す。NULLでも[0x0]と表示されるので桁数は３になる
+		data->printed_len = 2 + data->precision;
+
+		if (data->field <= data->precision)
+			data->field = 0;
+		else
+		{
+			data->field -= (2 + data->precision);
+			//nullのときフィールド幅が２とかだと、data->fieldが負の値になり、次のwrite()で無限ループする
+			if (data->field < 0)
+				data->field = 0;
+		}
+
 }
